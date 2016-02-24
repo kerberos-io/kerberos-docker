@@ -1,0 +1,14 @@
+
+      machinery:
+         image: kerberos/machinery:develop
+         ports:
+            - "8888:8888"
+         volumes:
+            - config:/etc/opt/kerberosio/config
+            - capture:/etc/opt/kerberosio/capture
+      web:
+         image: kerberos/web:develop
+         ports:
+            - "80:80"
+         volumes_from:
+            - machinery
