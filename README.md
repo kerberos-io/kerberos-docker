@@ -1,8 +1,3 @@
 #Docker
 
-This repository contains several docker files, which live in their own branch:
-
-* [web](https://github.com/kerberos-io/docker/tree/web)
-* [rpi-web](https://github.com/kerberos-io/docker/tree/rpi-web)
-* [machinery](https://github.com/kerberos-io/docker/tree/machinery)
-* [rpi-machinery](https://github.com/kerberos-io/docker/tree/rpi-machinery)
+This repository contains a docker compose file, which configures the machinery and web container.
