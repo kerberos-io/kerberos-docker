@@ -1,10 +1,10 @@
 machinery:
-    image: kerberos/machinery:develop
+    image: kerberos/machinery
     ports:
     - "8888:8888"
 
 web:
-    image: kerberos/web:develop
+    image: kerberos/web
     ports:
     - "80:80"
     volumes_from:
