@@ -20,19 +20,6 @@ A Docker image is available on the Docker Hub. Before you can run this image you
 
 ### Installation
 
-Create a docker-compose.yml file and following configuration:
-
-    machinery:
-        image: kerberos/machinery
-        ports:
-        - "8888:8888"
-    web:
-        image: kerberos/web
-        ports:
-        - "80:80"
-        volumes_from:
-        
-Run following command; this will download the Kerberos.io docker images and configure them properly.
+Copy the docker-compose.yml file to your current working directory and run following command; this will download the Kerberos.io docker images and configure them properly.
 
     docker-compose up
-        - machinery
