@@ -9,3 +9,5 @@ web:
     - "80:80"
     volumes_from:
     - machinery
+    links:
+    - machinery
