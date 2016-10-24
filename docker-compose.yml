@@ -1,12 +1,12 @@
 machinery:
     image: kerberos/machinery
     ports:
-    - "8889:8889"
+    - "8889"
 
 web:
     image: kerberos/web
     ports:
-    - "80:80"
+    - "80"
     volumes_from:
     - machinery
     links:
