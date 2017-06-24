@@ -28,7 +28,7 @@ apt-get upgrade -y
 RUN apt-get -y install git supervisor curl subversion libcurl4-gnutls-dev cmake dh-autoreconf libav-tools autotools-dev autoconf automake gcc build-essential libtool make nasm zlib1g-dev tar libx264.
 RUN apt-add-repository ppa:ondrej/php
 RUN apt-get update
-RUN apt-get -y --force-yes install nginx nodejs npm php7.0-cli php7.0-gd php7.0-mcrypt php7.0-curl php7.0-mbstring php7.0-dom php7.0-zip php-fpm pwgen
+RUN apt-get -y --force-yes install nginx nodejs npm php7.1-cli php7.1-gd php7.1-mcrypt php7.1-curl php7.1-mbstring php7.1-dom php7.1-zip php7.1-fpm pwgen
 
 ########################################
 # fix ownership of sock file for php-fpm
