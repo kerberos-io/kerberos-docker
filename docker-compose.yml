@@ -1,10 +1,12 @@
 machinery:
-    image: kerberos/machinery
+    image: kerberos/machinery:openmax-il
     ports:
     - "8889"
 
 web:
-    image: kerberos/web
+    image: kerberos/web:upgrade-to-5-4
+    environment:
+    - SECURE_SSL=false
     ports:
     - "80"
     volumes_from:
