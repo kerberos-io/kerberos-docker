@@ -6,7 +6,7 @@ machinery:
 web:
     image: kerberos/web:upgrade-to-5-4
     environment:
-    - SECURE_SSL=false
+    - KERBEROSIO_SECURE_SSL=true
     ports:
     - "80"
     volumes_from:
