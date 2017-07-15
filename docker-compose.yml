@@ -5,6 +5,8 @@ machinery:
 
 web:
     image: kerberos/web
+    environment:
+    - KERBEROSIO_SECURE_SSL=false
     ports:
     - "80"
     volumes_from:
