@@ -23,7 +23,7 @@ after_success:
 - if [ "$TRAVIS_PULL_REQUEST" = "false" ]; then docker login -u="$DOCKER_USERNAME"
   -p="$DOCKER_PASSWORD"; if [ "$TRAVIS_BRANCH" == "master" ]; then docker build -t
   kerberos .; docker tag kerberos kerberos/kerberos:latest; docker push kerberos/kerberos:latest; else
-  docker build --build-arg APP_ENV="$TRAVIS_BRANCH" -t web .; docker tag kerberos kerberos/kerberos:$TRAVIS_BRANCH;
+  docker build --build-arg APP_ENV="$TRAVIS_BRANCH" -t kerberos .; docker tag kerberos kerberos/kerberos:$TRAVIS_BRANCH;
   docker push kerberos/kerberos:$TRAVIS_BRANCH; fi fi
 env:
   global:
