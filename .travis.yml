@@ -1,6 +1,8 @@
-language: docker
+language: bash
 services:
 - docker
+script:
+  - echo "Building Kerberos.io docker container."
 notifications:
   email:
     recipients:
