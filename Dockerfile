@@ -28,11 +28,17 @@ RUN	git clone https://github.com/kerberos-io/machinery /tmp/machinery && \
     chown -Rf www-data.www-data /etc/opt/kerberosio && \
     chmod -Rf 777 /etc/opt/kerberosio/config
 
+  ###################
+  # nginx site conf
+
+  RUN rm -Rf /etc/nginx/conf.d/* && rm -Rf /etc/nginx/sites-available/default && mkdir -p /etc/nginx/ssl
+  ADD ./web.conf /etc/nginx/sites-available/default.conf
+  RUN ln -s /etc/nginx/sites-available/default.conf /etc/nginx/sites-enabled/default.conf
+
 #####################
 # Clone and build web
 
 RUN curl -sL https://deb.nodesource.com/setup_9.x | sudo -E bash - && apt-get install -y nodejs
-
 RUN git clone https://github.com/kerberos-io/web /var/www/web && cd /var/www/web && git checkout ${APP_ENV} && \
 chown -Rf www-data.www-data /var/www/web && curl -sS https://getcomposer.org/installer | sudo php -- --install-dir=/usr/local/bin --filename=composer && \
 cd /var/www/web && \
@@ -43,13 +49,6 @@ nodejs /usr/lib/node_modules/bower/bin/bower --allow-root install
 
 RUN rm /var/www/web/public/capture && \
 ln -s /etc/opt/kerberosio/capture/ /var/www/web/public/capture
-
-###################
-# nginx site conf
-
-RUN rm -Rf /etc/nginx/conf.d/* && rm -Rf /etc/nginx/sites-available/default && mkdir -p /etc/nginx/ssl
-ADD ./web.conf /etc/nginx/sites-available/default.conf
-RUN ln -s /etc/nginx/sites-available/default.conf /etc/nginx/sites-enabled/default.conf
 
 # Fixes, because we are now combining the two docker images.
 # Docker is aware of both web and machinery.
