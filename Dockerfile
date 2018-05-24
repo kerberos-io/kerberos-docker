@@ -28,13 +28,6 @@ RUN	git clone https://github.com/kerberos-io/machinery /tmp/machinery && \
     chown -Rf www-data.www-data /etc/opt/kerberosio && \
     chmod -Rf 777 /etc/opt/kerberosio/config
 
-  ###################
-  # nginx site conf
-
-  RUN rm -Rf /etc/nginx/conf.d/* && rm -Rf /etc/nginx/sites-available/default && mkdir -p /etc/nginx/ssl
-  ADD ./web.conf /etc/nginx/sites-available/default.conf
-  RUN ln -s /etc/nginx/sites-available/default.conf /etc/nginx/sites-enabled/default.conf
-
 #####################
 # Clone and build web
 
@@ -53,8 +46,15 @@ ln -s /etc/opt/kerberosio/capture/ /var/www/web/public/capture
 # Fixes, because we are now combining the two docker images.
 # Docker is aware of both web and machinery.
 RUN sed -i -e "s/'insideDocker'/'insideDocker' => false,\/\//" /var/www/web/app/Http/Controllers/SystemController.php
-RUN sed -i -e "s/\$output \=/\$output \= '';\/\//" /var/www/web/app/Http/Controllers/SettingsController.php
+# RUN sed -i -e "s/\$output \=/\$output \= '';\/\//" /var/www/web/app/Http/Controllers/SettingsController.php
 RUN sed -i -e "s/service kerberosio status/supervisorctl status machinery \| grep \"RUNNING\"';\/\//" /var/www/web/app/Http/Repositories/System/OSSystem.php
+
+###################
+# nginx site conf
+
+RUN rm -Rf /etc/nginx/conf.d/* && rm -Rf /etc/nginx/sites-available/default && mkdir -p /etc/nginx/ssl
+ADD ./web.conf /etc/nginx/sites-available/default.conf
+RUN ln -s /etc/nginx/sites-available/default.conf /etc/nginx/sites-enabled/default.conf
 
 ##################################
 # Fix PHP-FPM environment variables
