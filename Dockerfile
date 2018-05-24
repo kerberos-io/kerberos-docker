@@ -54,15 +54,25 @@ RUN ln -s /etc/nginx/sites-available/default.conf /etc/nginx/sites-enabled/defau
 # Fixes, because we are now combining the two docker images.
 # Docker is aware of both web and machinery.
 RUN sed -i -e "s/'insideDocker'/'insideDocker' => false,\/\//" /var/www/web/app/Http/Controllers/SystemController.php
+RUN sed -i -e "s/\$output \=/\$output \= '';\/\//" /var/www/web/app/Http/Controllers/SettingsController.php
 RUN sed -i -e "s/service kerberosio status/supervisorctl status machinery \| grep \"RUNNING\"';\/\//" /var/www/web/app/Http/Repositories/System/OSSystem.php
-
-# Merged supervisord config of both web and machinery
-ADD ./supervisord.conf /etc/supervisord.conf
 
 ##################################
 # Fix PHP-FPM environment variables
 
 RUN sed -i 's/"GPCS"/"EGPCS"/g' /etc/php/7.0/fpm/php.ini
+RUN sed -i 's/"--daemonize/"--daemonize --allow-to-run-as-root/g' /etc/init.d/php7.0-fpm
+RUN sed -i 's/www-data/root/g' /etc/php/7.0/fpm/pool.d/www.conf
+RUN sed -i 's/www-data/root/g' /etc/nginx/nginx.conf
+
+# Merged supervisord config of both web and machinery
+ADD ./supervisord.conf /etc/supervisord.conf
+
+# Merge the two run files.
+ADD ./run.sh /runny.sh
+RUN chmod 755 /runny.sh
+RUN chmod +x /runny.sh
+RUN sed -i -e 's/\r$//' /runny.sh
 
 # Exposing web on port 80 and livestreaming on port 8889
 EXPOSE 8889
@@ -76,11 +86,5 @@ VOLUME ["/etc/opt/kerberosio/logs"]
 # Make web config directory visible
 VOLUME ["/var/www/web/config"]
 
-# Merge the two run files.
-ADD ./run.sh /run.sh
-RUN chmod 755 /run.sh
-RUN chmod +x /run.sh
-RUN sed -i -e 's/\r$//' /run.sh
-
 # Start runner script when booting container
-CMD ["/bin/bash", "/run.sh"]
+CMD ["/bin/bash", "/runny.sh"]
