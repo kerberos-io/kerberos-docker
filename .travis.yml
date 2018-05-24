@@ -1,0 +1,28 @@
+language: docker
+services:
+- docker
+notifications:
+  email:
+    recipients:
+      - cedric@verstraeten.io
+    on_success: always
+    on_failure: always
+  irc:
+    channels:
+      - chat.freenode.net#kerberos.io
+    on_success: always
+    on_failure: always
+  slack:
+    rooms:
+      secure: pBC48TUzwFhXs2maG9a+Sd0+P3OBAS0vXi4xSraIrk0IBJCQjwH+yu3/RFT0nzCrltWuLr6e+iGtnBAl8P3QuijaNaBNJly5m1LI+Z4iGH2KzUdX/2wBOP+ALsv+mXnM3ORguBwcrMDpXMaH7UDcVQARoPxvK35Opr1RKPuQtLo=
+    on_success: always
+    on_failure: always
+after_success:
+- if [ "$TRAVIS_PULL_REQUEST" = "false" ]; then docker login -u="$DOCKER_USERNAME"
+  -p="$DOCKER_PASSWORD"; if [ "$TRAVIS_BRANCH" == "master" ]; then docker build -t
+  kerberos .; docker tag kerberos kerberos/kerberos:latest; docker push kerberos/kerberos:latest; else
+  docker build --build-arg APP_ENV="$TRAVIS_BRANCH" -t web .; docker tag kerberos kerberos/kerberos:$TRAVIS_BRANCH;
+  docker push kerberos/kerberos:$TRAVIS_BRANCH; fi fi
+env:
+  global:
+    secure: m9J2f2AphCP8fSMOONTWVHmyabBEAaBWgoXSN6c9dfKbNbN3OS3V2wbiB8OO7PuaVZegjRbsCGlB4dUoD1FAAYdyIero2yg3H7cvmKIAmoRsROJvACZh4I52g5iGCxxxLsXyhRet6FY3Tg+ztN71eKsBf7Eaggja0CUnfNz6Byc=
