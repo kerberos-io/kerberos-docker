@@ -1,4 +1,4 @@
-FROM resin/rpi-raspbian
+FROM arm64v8/debian
 
 MAINTAINER "Cédric Verstraeten" <hello@cedric.ws>
 
