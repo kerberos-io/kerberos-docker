@@ -1,15 +1,27 @@
-machinery:
-    image: kerberos/machinery
-    ports:
-    - "8889"
+version: "3.5"
 
-web:
-    image: kerberos/web
-    environment:
-    - KERBEROSIO_SECURE_SSL=false
-    ports:
-    - "80"
-    volumes_from:
-    - machinery
-    links:
-    - machinery
+services:
+ machinery:
+  image: kerberos/machinery
+  ports:
+   - "8889:8889" 
+  volumes:
+   - kerberos-config:/etc/opt/kerberosio/config
+   - kerberos-capture:/etc/opt/kerberosio/capture
+   - kerberos-logs:/etc/opt/kerberosio/logs
+
+ web:
+  image: kerberos/web
+  environment:
+   - KERBEROSIO_SECURE_SSL=false
+  ports:
+   - "8080:80"
+  volumes:
+   - kerberos-config:/etc/opt/kerberosio/config
+   - kerberos-capture:/etc/opt/kerberosio/capture
+   - kerberos-logs:/etc/opt/kerberosio/logs
+
+volumes:
+ kerberos-config:
+ kerberos-capture:
+ kerberos-logs:
