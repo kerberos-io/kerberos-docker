@@ -1,4 +1,4 @@
-FROM resin/rpi-raspbian
+FROM arm32v7/debian
 
 MAINTAINER "Cédric Verstraeten" <hello@cedric.ws>
 
@@ -21,8 +21,7 @@ ENV DEBIAN_FRONTEND noninteractive
 RUN apt-get update && \
 apt-get install -y software-properties-common
 RUN apt-get -y install git supervisor curl subversion libcurl4-gnutls-dev cmake dh-autoreconf libav-tools autotools-dev autoconf automake gcc build-essential libtool make nasm zlib1g-dev tar libx264.
-RUN apt-get install apt-transport-https lsb-release ca-certificates wget
-RUN apt-get -y --force-yes install nginx nodejs npm php7.0-cli php7.0-gd php7.0-mcrypt php7.0-curl php7.0-mbstring php7.0-dom php7.0-zip php7.0-fpm pwgen
+RUN apt-get -y --force-yes install nginx php7.0-cli php7.0-gd php7.0-mcrypt php7.0-curl php7.0-mbstring php7.0-dom php7.0-zip php7.0-fpm pwgen
 
 ########################################
 # fix ownership of sock file for php-fpm
@@ -40,9 +39,9 @@ RUN sed -i -e "s/;daemonize\s*=\s*yes/daemonize = no/g" /etc/php/7.0/fpm/php-fpm
 ############################
 # Clone and build machinery
 
-RUN apt-get install libomxil-bellagio-dev -y
+RUN   apt-get install libomxil-bellagio-dev -y
 RUN git clone https://github.com/FFmpeg/FFmpeg && \
 	cd FFmpeg && git checkout remotes/origin/release/3.1 && \
-	./configure --arch=armel --target-os=linux --enable-gpl --enable-omx --enable-omx-rpi --enable-nonfree --enable-libx264 && make && \
+	./configure --target-os=linux --enable-nonfree --enable-libx264 --enable-gpl --enable-omx && make && \
     make install && \
     cd .. && rm -rf FFmpeg

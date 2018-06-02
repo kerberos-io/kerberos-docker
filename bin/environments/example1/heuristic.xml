@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<heuristics>
+
+	<Sequence>
+	    <minimumChanges type="number">20</minimumChanges>
+	    <minimumDuration type="number">2</minimumDuration>
+        <noMotionDelayTime type="number">1000</noMotionDelayTime>
+	</Sequence>
+    
+	<Counter>
+	    <appearance type="number">3</appearance>
+	    <maxDistance type="number">140</maxDistance>
+	    <minArea type="number">200</minArea>
+	    <onlyTrueWhenCounted type="bool">true</onlyTrueWhenCounted>
+	    <minimumChanges type="number">20</minimumChanges>
+        <noMotionDelayTime type="number">100</noMotionDelayTime>
+		<markers type="twolines">100,100|100,200|200,100|200,200</markers>
+	</Counter>
+
+</heuristics>
