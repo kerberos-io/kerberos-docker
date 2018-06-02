@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<clouds>
+
+    <S3>
+        <bucket type="text">ezg</bucket>
+        <folder type="text">zeg</folder>
+        <publicKey type="text">zeg</publicKey>
+        <privateKey type="text">eg</privateKey>
+    </S3>
+    
+</clouds>
