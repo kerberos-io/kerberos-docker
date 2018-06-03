@@ -18,7 +18,7 @@ re='^[0-9]+$'
 while [[ $webport == '' ]] || ! [[ $webport =~ $re ]] # While port is not set or not a number
 do
     echo "Specify the port on which the webinterface will be available."
-    read -p "Enter webinterface port: " webport
+    read -p "Enter webinterface  port: " webport
 done
 
 while [[ $streamport == '' ]] || ! [[ $streamport =~ $re ]] # While port is not set or not a number
@@ -27,5 +27,12 @@ do
     read -p "Enter livestreaming port: " streamport
 done
 
-out=$(docker run --name ${name} -p ${webport}:80 -p ${streamport}:8889 --mount type=bind,src=${BASEDIR}/environments/${environment},dst=/etc/opt/kerberosio/config -d kerberos/kerberos)
-echo "Result: ${out}"
+output=$(docker run --name ${name} -p ${webport}:80 -p ${streamport}:8889 --mount type=bind,src=${BASEDIR}/environments/${environment},dst=/etc/opt/kerberosio/config -d kerberos/kerberos 2>/dev/null)
+
+if [[ $output == '' ]]
+then
+  echo "Hmm, something went wrong while creating the container."
+else
+  echo "Container succesfully created!"
+  echo "Adding container command to autostart.sh"
+fi
