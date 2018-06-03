@@ -2,7 +2,7 @@
 <kerberos>
 
     <instance>
-        <name type="text">frontdoor</name>
+        <name type="text">example2</name>
         <logging type="bool">false</logging>
         <timezone type="timezone">Europe-Jersey</timezone>
         <capture file="capture.xml">RaspiCamera</capture>
