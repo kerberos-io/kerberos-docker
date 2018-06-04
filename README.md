@@ -48,21 +48,21 @@ The tool we've created is a simple bash script which we called **dockeros**, and
 
 ### Commands
 
-    ./dockeros.sh **showall**
+    ./dockeros.sh showall
 
 List all kerberos.io containers which are created.
 
-    ./dockeros.sh **cleanup**
+    ./dockeros.sh cleanup
 
 Remove all kerberos.io containers which were created before.
 
-    ./dockeros.sh **create** {name} {config} {webport} {streamport}
+    ./dockeros.sh create {name} {config} {webport} {streamport}
 
 This method requires a couple of arguments, if left blank the arguments will be asked while executing the command.
 
 **name**: This is the name of the container which will be created.
 
-**config**: The configuration which needs to be injected in the container. The configuration files can be found in the **/environments** folder.
+**config**: The configuration which needs to be injected in the container. The configuration directories can be found in the **/environments** folder.
 
 **webport**: The port on which the webinterface will be served.
 
