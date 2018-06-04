@@ -1,6 +1,8 @@
 #!/bin/bash
 
 BASEDIR=$(cd `dirname $0` && pwd)
+my_dir="$(dirname "$0")"
+"$my_dir/src/check_docker.sh"
 
 while [[ $name == '' ]] # While containername is valid or empty...
 do
@@ -27,7 +29,8 @@ do
     read -p "Enter livestreaming port: " streamport
 done
 
-output=$(docker run --name ${name} -p ${webport}:80 -p ${streamport}:8889 --mount type=bind,src=${BASEDIR}/environments/${environment},dst=/etc/opt/kerberosio/config -d kerberos/kerberos 2>/dev/null)
+command="docker run --name ${name} -p ${webport}:80 -p ${streamport}:8889 --restart unless-stopped --mount type=bind,src=${BASEDIR}/environments/${environment},dst=/etc/opt/kerberosio/config -d kerberos/kerberos 2>/dev/null"
+output=$(command)
 
 if [[ $output == '' ]]
 then
@@ -35,4 +38,5 @@ then
 else
   echo "Container succesfully created!"
   echo "Adding container command to autostart.sh"
+  command >> "$my_dir/autostart/autostart.sh"
 fi
