@@ -36,23 +36,49 @@ function create {
         read -p "Enter livestreaming port: " streamport
     done
 
-    output=$(docker run --name kerberos-${name} -p ${webport}:80 -p ${streamport}:8889 --mount type=bind,src=${BASEDIR}/environments/${environment},dst=/etc/opt/kerberosio/config -d kerberos/kerberos 2>/dev/null)
-    echo $output
-    if [[ $output == '' ]]
+    command="docker run --name kerberos-${name} -p ${webport}:80 -p ${streamport}:8889 --mount type=bind,src=${BASEDIR}/environments/${environment},dst=/etc/opt/kerberosio/config -d kerberos/kerberos"
+    output=$($command 2>&1)
+
+    if [[ $output == '' ]] || [[ $output =~ "Error" ]]
     then
       echo "Hmm, something went wrong while creating the container."
+      echo "Might be that the ports are already used for another container."
+      echo "-------------------------"
+      echo "ERROR WHILE CREATING CONTAINER"
+      echo "Output: $output"
+      echo "-------------------------"
+      echo "SHOWING ALL KERBEROS.IO CONTAINERS"
+      docker ps -aq --filter="name=kerberos"
+      echo "-------------------------"
+      echo "REMOVING CONTAINER AGAIN"
+      if [ "$(docker ps -aq --filter="name=kerberos-$name")" ]
+      then
+          docker rm $(docker ps -aq --filter="name=kerberos-$name")
+      fi
     else
       echo "Container succesfully created!"
       echo "Adding container command to autostart.sh"
-      command >> "$BASEDIR/autostart/autostart.sh"
+      echo $command >> "$BASEDIR/autostart/autostart.sh"
     fi
 }
 
 function cleanup {
     echo "Stop all running Kerberos.io containers"
-    docker stop $(docker ps -aq --filter="name=kerberos")
+    if [ "$(docker ps -aq --filter="name=kerberos")" ]
+    then
+        docker stop $(docker ps -aq --filter="name=kerberos")
+    fi
+
     echo "Remove all containers"
-    docker rm $(docker ps -aq --filter="name=kerberos")
+    if [ "$(docker ps -aq --filter="name=kerberos")" ]
+    then
+        docker rm $(docker ps -aq --filter="name=kerberos")
+    fi
+}
+
+function showall {
+    echo "Showing all running Kerberos.io containers"
+    docker ps --filter="name=kerberos"
 }
 
 function start {
@@ -77,5 +103,8 @@ case "$command" in
       ;;
   "start")
       start
+      ;;
+  "showall")
+      showall
       ;;
 esac
