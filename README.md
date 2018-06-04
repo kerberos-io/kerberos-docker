@@ -33,3 +33,38 @@ After you've installed docker, you can open a command prompt and type in followi
     $ docker run --name camera1 -p 80:80 -p 8889:8889 -d kerberos/kerberos
     $ docker run --name camera2 -p 81:80 -p 8890:8889 -d kerberos/kerberos
     $ docker run --name camera3 -p 82:80 -p 8891:8889 -d kerberos/kerberos
+
+### Use our docker creation tool
+
+We've created a simple and small tool to auto provision and auto configure Kerberos.io containers. The idea is that you define the different configurations for every camera upfront, and map them to into your docker container (using volumes). The ultimate goal is to have a fully automated and lightning fast way for provisioning your video surveillance environments in just a matter of seconds.
+
+CAMERA 1 <<== CONTAINER1 <<== environment/cameraconfig1
+CAMERA 2 <<== CONTAINER2 <<== environment/cameraconfig2
+CAMERA 3 <<== CONTAINER2 <<== environment/cameraconfig3
+
+## How to use it?
+
+The tool we've created is a simple bash script which we called **dockeros**, and exposes a couple of methods; discussed below. By defining a couple input parameters, **dockeros** will do all the magic docker commandline for you.
+
+   git clone https://github.com/kerberos-io/docker
+   cd docker/bin
+   ./dockeros.sh {command}
+
+## Commands
+
+    ./dockeros.sh **showall**
+
+List all kerberos.io containers which are created.
+
+    ./dockeros.sh **cleanup**
+
+Remove all kerberos.io containers which were created before.
+
+    ./dockeros.sh **create** {name} {config} {webport} {streamport}
+
+This method requires a couple of arguments, if left blank the arguments will be asked while executing the command.
+
+**name**: This is the name of the container which will be created.
+**config**: The configuration which needs to be injected in the container. The configuration files can be found in the **/environments** folder.
+**webport**: The port on which the webinterface will be served.
+**streamport**: The port on which the livestream will be served.
