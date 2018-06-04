@@ -36,7 +36,7 @@ function create {
         read -p "Enter livestreaming port: " streamport
     done
 
-    command="docker run --name kerberos-${name} -p ${webport}:80 -p ${streamport}:8889 --mount type=bind,src=${BASEDIR}/environments/${environment},dst=/etc/opt/kerberosio/config -d kerberos/kerberos"
+    command="docker run --name kerberos-${name} --restart unless-stopped -p ${webport}:80 -p ${streamport}:8889 --mount type=bind,src=${BASEDIR}/environments/${environment},dst=/etc/opt/kerberosio/config -d kerberos/kerberos"
     output=$($command 2>&1)
 
     if [[ $output == '' ]] || [[ $output =~ "Error" ]]
