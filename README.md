@@ -34,9 +34,9 @@ After you've installed docker, you can open a command prompt and type in followi
 
 We've created a simple and small tool to auto provision and auto configure Kerberos.io containers. The idea is that you define the different configurations for every camera upfront, and map them to into your docker container (using volumes). The ultimate goal is to have a fully automated and lightning fast way for provisioning your video surveillance environments in just a matter of seconds.
 
-CAMERA 1 <<== CONTAINER1 <<== environment/cameraconfig1
-CAMERA 2 <<== CONTAINER2 <<== environment/cameraconfig2
-CAMERA 3 <<== CONTAINER2 <<== environment/cameraconfig3
+    CAMERA 1 <<== CONTAINER1 <<== environment/cameraconfig1
+    CAMERA 2 <<== CONTAINER2 <<== environment/cameraconfig2
+    CAMERA 3 <<== CONTAINER2 <<== environment/cameraconfig3
 
 ### How to use it?
 
@@ -61,6 +61,9 @@ Remove all kerberos.io containers which were created before.
 This method requires a couple of arguments, if left blank the arguments will be asked while executing the command.
 
 **name**: This is the name of the container which will be created.
+
 **config**: The configuration which needs to be injected in the container. The configuration files can be found in the **/environments** folder.
+
 **webport**: The port on which the webinterface will be served.
+
 **streamport**: The port on which the livestream will be served.
