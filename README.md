@@ -22,9 +22,9 @@ Use your mobile phone, tablet or PC to keep an eye on your property. View the im
 
 # Docker
 
-**--- For the moment this approach only works for IP cameras, we don't have a cross-platform method to inject a USB camera or Raspberry Pi camera ---**
+**!!! For the moment this approach only works for IP cameras, we don't have a cross-platform method to inject a USB camera or Raspberry Pi camera !!!**
 
-A Docker image (x86,ARMv7,ARMv8) is available on [**the Docker Hub**](https://hub.docker.com/u/kerberos/kerberos). Before you can run this image you will have to get [**Docker**](https://docker.com) installed. After the installation you can use **docker run** to get Kerberos.io up and running.
+A Docker image (x86, ARMv7, ARMv8) is available on [**the Docker Hub**](https://hub.docker.com/u/kerberos/kerberos). Before you can run this image you will have to get [**Docker**](https://docker.com) installed. After the installation you can use **docker run** to get Kerberos.io up and running.
 
 ## Run a simple command.
 
