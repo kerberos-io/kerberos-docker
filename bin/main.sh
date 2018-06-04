@@ -74,6 +74,8 @@ function cleanup {
     then
         docker rm $(docker ps -aq --filter="name=kerberos")
     fi
+
+    echo "" > "$BASEDIR/autostart/autostart.sh"
 }
 
 function showall {
