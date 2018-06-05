@@ -14,7 +14,7 @@ S
 
 **!!! For the moment this approach only works for IP cameras, we don't have a cross-platform method to inject a USB camera or Raspberry Pi camera !!!**
 
-A Docker image (x86, ARMv7, ARMv8) is available on [**the Docker Hub**](https://hub.docker.com/u/kerberos/kerberos), which contains all the necessary software to setup your security infrastructure in a matter of seconds. Before you can run this image you will have to get [**Docker**](https://docker.com) installed. After the installation you can use **docker run** to get Kerberos.io up and running, or you can opt for **dockeros** to create and scale your security cameras.
+A Docker image (x86, ARMv7, ARMv8) is available on [**the Docker Hub**](https://hub.docker.com/u/kerberos/kerberos), which contains all the necessary software to setup your security infrastructure in a matter of seconds. Before you can run this image you will have to get [**Docker**](https://docker.com) installed. After the installation you can use **docker run** to get Kerberos.io up and running, or you can opt for **dockeros** to create and scale your security infrastructure.
 
 ## Use docker run
 
