@@ -34,7 +34,7 @@ We've created a simple and small tool to auto provision and auto configure Kerbe
 
 ### How to use it?
 
-The tool we've created is a simple bash script which we called **dockeros**, and exposes a couple of methods; discussed below. By defining a couple input parameters, **dockeros** will do all the magic docker commandline for you.
+The tool we've created is a simple bash script which we called **dockeros**, and exposes a couple of methods; discussed below. By specifying a number of parameters, **dockeros** will do all the magic dockering for you. This tool is still work in progress, so PR's and new features are welcome!
 
     git clone https://github.com/kerberos-io/docker
     cd docker/bin
