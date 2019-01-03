@@ -2,10 +2,10 @@
 <clouds>
 
     <S3>
-        <bucket type="text">ezg</bucket>
-        <folder type="text">zeg</folder>
-        <publicKey type="text">zeg</publicKey>
-        <privateKey type="text">eg</privateKey>
+        <bucket type="text"></bucket>
+        <folder type="text"></folder>
+        <publicKey type="text"></publicKey>
+        <privateKey type="text"></privateKey>
     </S3>
     
 </clouds>
