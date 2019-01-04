@@ -1,7 +1,5 @@
 # KERBEROS.**IO**
 
-[![gitcheese.com](https://s3.amazonaws.com/gitcheese-ui-master/images/badge.svg)](https://www.gitcheese.com/donate/users/1546779/repos/52265945)
-
 [![Kerberos.io - video surveillance](https://kerberos.io/images/kerberos.png)](https://kerberos.io)
 
 ## Why Kerberos.io?
