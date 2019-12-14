@@ -2,12 +2,6 @@
 
 [![Kerberos.io - video surveillance](https://kerberos.io/images/kerberos.png)](https://kerberos.io)
 
-## License
-
-The Kerberos Open Source project is licensed with BY-NC-SA 4.0, this means that everyone can use Kerberos and modify if to their needs, in a non commercial activity.
-
-More information [**about this license**](https://doc.kerberos.io/opensource/license).
-
 ## Why Kerberos.io?
 
 As burgalary is very common, we believe that video surveillance is a **trivial tool** in our daily lifes which helps us to **feel** a little bit more **secure**. Responding to this need, a lot of companies have started developing their own video surveillance software in the past few years.
