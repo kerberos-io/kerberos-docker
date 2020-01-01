@@ -21,7 +21,7 @@ ENV DEBIAN_FRONTEND noninteractive
 # Add sources for latest nginx and cmake
 # Install software requirements
 
-RUN sudo sed -i -e 's/us.archive.ubuntu.com/archive.ubuntu.com/g' /etc/apt/sources.list
+RUN sed -i -e 's/us.archive.ubuntu.com/archive.ubuntu.com/g' /etc/apt/sources.list
 RUN apt-get update && \
 apt-get install -y software-properties-common && \
 nginx=stable && \
