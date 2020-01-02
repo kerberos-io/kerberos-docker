@@ -72,7 +72,7 @@ cd /var/www/web && \
 composer install --prefer-source && \
 npm install -g bower && \
 cd public && \
-nodejs /usr/lib/node_modules/bower/bin/bower --allow-root install
+bower --allow-root install
 
 RUN rm /var/www/web/public/capture && \
 ln -s /etc/opt/kerberosio/capture/ /var/www/web/public/capture
