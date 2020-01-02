@@ -3,7 +3,7 @@ MAINTAINER "Cédric Verstraeten" <hello@cedric.ws>
 
 ARG APP_ENV=master
 ENV APP_ENV ${APP_ENV}
-ARG PHP_VERSION=7.2
+ARG PHP_VERSION=7.1
 ARG FFMPEG_VERSION=3.1.4
 
 #################################
