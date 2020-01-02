@@ -22,7 +22,7 @@ ENV DEBIAN_FRONTEND noninteractive
 # Add sources for latest nginx and cmake
 # Install software requirements
 
-RUN apt-get update && apt-get install -y wget \
+RUN apt-get update && apt-get install -y wget && \
 wget -O /etc/apt/trusted.gpg.d/php.gpg https://packages.sury.org/php/apt.gpg && \
 echo "deb https://packages.sury.org/php/ $(lsb_release -sc) main" > /etc/apt/sources.list.d/php.list && \
 apt -y update && \
