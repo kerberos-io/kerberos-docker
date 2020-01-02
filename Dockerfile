@@ -23,7 +23,7 @@ ENV DEBIAN_FRONTEND noninteractive
 
 RUN apt-get update && apt-get install -y software-properties-common
 RUN apt-get -y install git supervisor curl subversion libcurl4-gnutls-dev cmake dh-autoreconf autotools-dev autoconf automake gcc build-essential libtool make nasm zlib1g-dev tar libx264.
-RUN apt-get -y --force-yes install nginx nodejs npm php7.0-cli php7.0-gd php7.0-mcrypt php7.0-curl php7.0-mbstring php7.0-dom php7.0-zip php7.0-fpm pwgen
+RUN apt-get -y --force-yes install nginx nodejs npm php7.1-cli php7.1-gd php7.1-mcrypt php7.1-curl php7.1-mbstring php7.1-dom php7.1-zip php7.1-fpm pwgen
 
 ########################################
 # fix ownership of sock file for php-fpm
@@ -90,7 +90,7 @@ RUN ln -s /etc/nginx/sites-available/default.conf /etc/nginx/sites-enabled/defau
 # Fix PHP-FPM environment variables
 
 RUN sed -i 's/"GPCS"/"EGPCS"/g' /etc/php/7.0/fpm/php.ini
-RUN sed -i 's/"--daemonize/"--daemonize --allow-to-run-as-root/g' /etc/init.d/php7.0-fpm
+RUN sed -i 's/"--daemonize/"--daemonize --allow-to-run-as-root/g' /etc/init.d/php7.1-fpm
 RUN sed -i 's/www-data/root/g' /etc/php/7.0/fpm/pool.d/www.conf
 RUN sed -i 's/www-data/root/g' /etc/nginx/nginx.conf
 
