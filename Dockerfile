@@ -32,8 +32,8 @@ RUN apt-get -y --force-yes install nginx nodejs npm php7.1-cli php7.1-gd php7.1-
 ########################################
 # fix ownership of sock file for php-fpm
 
-RUN sed -i -e "s/;listen.mode = 0660/listen.mode = 0750/g" /etc/php/7.0/fpm/pool.d/www.conf && \
-find /etc/php/7.0/cli/conf.d/ -name "*.ini" -exec sed -i -re 's/^(\s*)#(.*)/\1;\2/g' {} \;
+RUN sed -i -e "s/;listen.mode = 0660/listen.mode = 0750/g" /etc/php/7.1/fpm/pool.d/www.conf && \
+find /etc/php/7.1/cli/conf.d/ -name "*.ini" -exec sed -i -re 's/^(\s*)#(.*)/\1;\2/g' {} \;
 
 ########################################
 # Force both nginx and PHP-FPM to run in the foreground
