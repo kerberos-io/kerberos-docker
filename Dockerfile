@@ -23,7 +23,7 @@ ENV DEBIAN_FRONTEND noninteractive
 
 RUN apt-get update && apt-get install -y software-properties-common
 RUN apt-get -y install git supervisor curl subversion libcurl4-gnutls-dev cmake dh-autoreconf autotools-dev autoconf automake gcc build-essential libtool make nasm zlib1g-dev tar libx264.
-RUN apt install -y apt-transport-https lsb-release ca-certificates && \
+RUN apt install -y apt-transport-https lsb-release ca-certificates wget && \
 wget -O /etc/apt/trusted.gpg.d/php.gpg https://packages.sury.org/php/apt.gpg && \
 echo "deb https://packages.sury.org/php/ $(lsb_release -sc) main" > /etc/apt/sources.list.d/php.list && \
 apt -y update
