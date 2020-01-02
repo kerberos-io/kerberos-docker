@@ -46,7 +46,7 @@ RUN git clone https://github.com/FFmpeg/FFmpeg && \
 ############################
 # Clone and build machinery
 
-RUN	git clone https://github.com/kerberos-io/machinery /tmp/machinery && \
+RUN apt install libssl-dev && git clone https://github.com/kerberos-io/machinery /tmp/machinery && \
     cd /tmp/machinery && git checkout ${APP_ENV} && \
     mkdir build && cd build && \
     cmake .. && make && make check && make install && \
