@@ -21,8 +21,8 @@ ENV DEBIAN_FRONTEND noninteractive
 # Add sources for latest nginx and cmake
 # Install software requirements
 
-RUN apt-get update && apt-get install -y software-properties-common 
-RUN apt-get -y install git supervisor curl subversion libcurl4-gnutls-dev cmake dh-autoreconf libav-tools autotools-dev autoconf automake gcc build-essential libtool make nasm zlib1g-dev tar libx264.
+RUN apt-get update && apt-get install -y software-properties-common
+RUN apt-get -y install git supervisor curl subversion libcurl4-gnutls-dev cmake dh-autoreconf autotools-dev autoconf automake gcc build-essential libtool make nasm zlib1g-dev tar libx264.
 RUN apt-get -y --force-yes install nginx nodejs npm php7.0-cli php7.0-gd php7.0-mcrypt php7.0-curl php7.0-mbstring php7.0-dom php7.0-zip php7.0-fpm pwgen
 
 ########################################
