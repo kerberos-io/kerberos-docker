@@ -95,7 +95,7 @@ RUN ln -s /etc/nginx/sites-available/default.conf /etc/nginx/sites-enabled/defau
 
 RUN sed -i 's/"GPCS"/"EGPCS"/g' /etc/php/7.1/fpm/php.ini
 RUN sed -i 's/"--daemonize/"--daemonize --allow-to-run-as-root/g' /etc/init.d/php7.1-fpm
-RUN sed -i 's/www-data/root/g' /etc/php/7.0/fpm/pool.d/www.conf
+RUN sed -i 's/www-data/root/g' /etc/php/7.1/fpm/pool.d/www.conf
 RUN sed -i 's/www-data/root/g' /etc/nginx/nginx.conf
 
 # Merged supervisord config of both web and machinery
