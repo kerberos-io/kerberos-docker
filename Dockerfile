@@ -22,14 +22,14 @@ ENV DEBIAN_FRONTEND noninteractive
 # Add sources for latest nginx and cmake
 # Install software requirements
 
-RUN apt-get update && apt-get install -y wget && \
+RUN apt-get update && apt-get install -y wget lsb-release && \
 wget -O /etc/apt/trusted.gpg.d/php.gpg https://packages.sury.org/php/apt.gpg && \
 echo "deb https://packages.sury.org/php/ $(lsb_release -sc) main" > /etc/apt/sources.list.d/php.list && \
 apt -y update && \
 apt -y install software-properties-common git supervisor curl \
 subversion libcurl4-gnutls-dev cmake dh-autoreconf autotools-dev autoconf automake gcc \
 build-essential libtool make nasm zlib1g-dev tar libx264. apt-transport-https \
-lsb-release ca-certificates wget nginx php${PHP_VERSION}-cli php${PHP_VERSION}-gd php${PHP_VERSION}-mcrypt php${PHP_VERSION}-curl \
+ca-certificates wget nginx php${PHP_VERSION}-cli php${PHP_VERSION}-gd php${PHP_VERSION}-mcrypt php${PHP_VERSION}-curl \
 php${PHP_VERSION}-mbstring php${PHP_VERSION}-dom php${PHP_VERSION}-zip php${PHP_VERSION}-fpm pwgen && \
 curl -sL https://deb.nodesource.com/setup_9.x | bash - && apt-get install -y nodejs
 
