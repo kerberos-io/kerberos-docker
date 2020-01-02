@@ -1,9 +1,10 @@
 FROM debian:buster
+MAINTAINER "Cédric Verstraeten" <hello@cedric.ws>
 
 ARG APP_ENV=master
 ENV APP_ENV ${APP_ENV}
-
-MAINTAINER "Cédric Verstraeten" <hello@cedric.ws>
+ARG PHP_VERSION=7.2
+ARG FFMPEG_VERSION=3.1.4
 
 #################################
 # Surpress Upstart errors/warning
@@ -21,32 +22,23 @@ ENV DEBIAN_FRONTEND noninteractive
 # Add sources for latest nginx and cmake
 # Install software requirements
 
-RUN apt-get update && apt-get install -y software-properties-common
-RUN apt-get -y install git supervisor curl subversion libcurl4-gnutls-dev cmake dh-autoreconf autotools-dev autoconf automake gcc build-essential libtool make nasm zlib1g-dev tar libx264.
-RUN apt install -y apt-transport-https lsb-release ca-certificates wget && \
+RUN apt-get update && apt-get install -y wget \
 wget -O /etc/apt/trusted.gpg.d/php.gpg https://packages.sury.org/php/apt.gpg && \
 echo "deb https://packages.sury.org/php/ $(lsb_release -sc) main" > /etc/apt/sources.list.d/php.list && \
-apt -y update
-RUN apt-get -y --force-yes install nginx nodejs npm php7.1-cli php7.1-gd php7.1-mcrypt php7.1-curl php7.1-mbstring php7.1-dom php7.1-zip php7.1-fpm pwgen
-
-########################################
-# fix ownership of sock file for php-fpm
-
-RUN sed -i -e "s/;listen.mode = 0660/listen.mode = 0750/g" /etc/php/7.1/fpm/pool.d/www.conf && \
-find /etc/php/7.1/cli/conf.d/ -name "*.ini" -exec sed -i -re 's/^(\s*)#(.*)/\1;\2/g' {} \;
-
-########################################
-# Force both nginx and PHP-FPM to run in the foreground
-# This is a requirement for supervisor
-
-RUN echo "daemon off;" >> /etc/nginx/nginx.conf
-RUN sed -i -e "s/;daemonize\s*=\s*yes/daemonize = no/g" /etc/php/7.1/fpm/php-fpm.conf
+apt -y update && \
+apt -y install software-properties-common git supervisor curl \
+subversion libcurl4-gnutls-dev cmake dh-autoreconf autotools-dev autoconf automake gcc \
+build-essential libtool make nasm zlib1g-dev tar libx264. apt-transport-https \
+lsb-release ca-certificates wget nginx php${PHP_VERSION}-cli php${PHP_VERSION}-gd php${PHP_VERSION}-mcrypt php${PHP_VERSION}-curl \
+php${PHP_VERSION}-mbstring php${PHP_VERSION}-dom php${PHP_VERSION}-zip php${PHP_VERSION}-fpm pwgen && \
+curl -sL https://deb.nodesource.com/setup_9.x | bash - && apt-get install -y nodejs
 
 ############################
 # Clone and build ffmpeg
 
+RUN apt-get install libomxil-bellagio-dev -y
 RUN git clone https://github.com/FFmpeg/FFmpeg && \
-	cd FFmpeg && git checkout remotes/origin/release/2.8 && \
+	cd FFmpeg && git checkout remotes/origin/release/${FFMPEG_VERSION} && \
 	./configure --enable-gpl --enable-libx264 && make && \
     make install && \
     cd .. && rm -rf FFmpeg
@@ -65,7 +57,6 @@ RUN	git clone https://github.com/kerberos-io/machinery /tmp/machinery && \
 #####################
 # Clone and build web
 
-RUN curl -sL https://deb.nodesource.com/setup_9.x | bash - && apt-get install -y nodejs
 RUN git clone https://github.com/kerberos-io/web /var/www/web && cd /var/www/web && git checkout ${APP_ENV} && \
 chown -Rf www-data.www-data /var/www/web && curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer && \
 cd /var/www/web && \
@@ -90,13 +81,18 @@ RUN rm -Rf /etc/nginx/conf.d/* && rm -Rf /etc/nginx/sites-available/default && m
 ADD ./web.conf /etc/nginx/sites-available/default.conf
 RUN ln -s /etc/nginx/sites-available/default.conf /etc/nginx/sites-enabled/default.conf
 
-##################################
-# Fix PHP-FPM environment variables
+########################################
+# Force both nginx and PHP-FPM to run in the foreground
+# This is a requirement for supervisor
 
-RUN sed -i 's/"GPCS"/"EGPCS"/g' /etc/php/7.1/fpm/php.ini
-RUN sed -i 's/"--daemonize/"--daemonize --allow-to-run-as-root/g' /etc/init.d/php7.1-fpm
-RUN sed -i 's/www-data/root/g' /etc/php/7.1/fpm/pool.d/www.conf
+RUN echo "daemon off;" >> /etc/nginx/nginx.conf
+RUN sed -i -e "s/;daemonize\s*=\s*yes/daemonize = no/g" /etc/php/${PHP_VERSION}/fpm/php-fpm.conf
+RUN sed -i 's/"GPCS"/"EGPCS"/g' /etc/php/${PHP_VERSION}/fpm/php.ini
+RUN sed -i 's/"--daemonize/"--daemonize --allow-to-run-as-root/g' /etc/init.d/php${PHP_VERSION}-fpm
+RUN sed -i 's/www-data/root/g' /etc/php/${PHP_VERSION}/fpm/pool.d/www.conf
 RUN sed -i 's/www-data/root/g' /etc/nginx/nginx.conf
+RUN sed -i -e "s/;listen.mode = 0660/listen.mode = 0750/g" /etc/php/${PHP_VERSION}/fpm/pool.d/www.conf && \
+find /etc/php/${PHP_VERSION}/cli/conf.d/ -name "*.ini" -exec sed -i -re 's/^(\s*)#(.*)/\1;\2/g' {} \;
 
 # Merged supervisord config of both web and machinery
 ADD ./supervisord.conf /etc/supervisord.conf
