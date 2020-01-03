@@ -98,10 +98,10 @@ find /etc/php/${PHP_VERSION}/cli/conf.d/ -name "*.ini" -exec sed -i -re 's/^(\s*
 ADD ./supervisord.conf /etc/supervisord.conf
 
 # Merge the two run files.
-ADD ./run.sh /runny.sh
-RUN chmod 755 /runny.sh
-RUN chmod +x /runny.sh
-RUN sed -i -e 's/\r$//' /runny.sh
+ADD ./run.sh /run.sh
+RUN chmod 755 /run.sh
+RUN chmod +x /run.sh
+RUN sed -i -e 's/\r$//' /run.sh
 
 # Exposing web on port 80 and livestreaming on port 8889
 EXPOSE 8889
@@ -116,4 +116,4 @@ VOLUME ["/etc/opt/kerberosio/logs"]
 VOLUME ["/var/www/web/config"]
 
 # Start runner script when booting container
-CMD ["/bin/bash", "/runny.sh"]
+CMD ["/bin/bash", "/run.sh"]
