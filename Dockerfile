@@ -31,7 +31,7 @@ subversion libcurl4-gnutls-dev cmake dh-autoreconf autotools-dev autoconf automa
 build-essential libtool make nasm zlib1g-dev tar libx264. apt-transport-https \
 ca-certificates wget nginx php${PHP_VERSION}-cli php${PHP_VERSION}-gd php${PHP_VERSION}-mcrypt php${PHP_VERSION}-curl \
 php${PHP_VERSION}-mbstring php${PHP_VERSION}-dom php${PHP_VERSION}-zip php${PHP_VERSION}-fpm pwgen && \
-curl -sL https://deb.nodesource.com/setup_9.x | bash - && apt-get install -y nodejs
+curl -sL https://deb.nodesource.com/setup_9.x | bash - && apt-get install -y nodejs npm
 
 ############################
 # Clone and build ffmpeg
