@@ -12,9 +12,9 @@ autoremoval() {
 }
 
 # changes for php 7.0
-echo "[www]" > /etc/php/7.0/fpm/pool.d/env.conf
-echo "" >> /etc/php/7.0/fpm/pool.d/env.conf
-env | grep "KERBEROSIO_" | sed "s/\(.*\)=\(.*\)/env[\1]='\2'/" >> /etc/php/7.0/fpm/pool.d/env.conf
+echo "[www]" > /etc/php/7.1/fpm/pool.d/env.conf
+echo "" >> /etc/php/7.1/fpm/pool.d/env.conf
+env | grep "KERBEROSIO_" | sed "s/\(.*\)=\(.*\)/env[\1]='\2'/" >> /etc/php/7.1/fpm/pool.d/env.conf
 service php7.0-fpm start
 
 # replace SESSION_COOKIE_NAME
