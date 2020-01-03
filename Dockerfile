@@ -26,12 +26,20 @@ RUN apt-get update && apt-get install -y wget lsb-release && \
 wget -O /etc/apt/trusted.gpg.d/php.gpg https://packages.sury.org/php/apt.gpg && \
 echo "deb https://packages.sury.org/php/ $(lsb_release -sc) main" > /etc/apt/sources.list.d/php.list && \
 apt -y update && \
-apt -y install software-properties-common git supervisor curl \
+apt -y install software-properties-common libssl-dev git supervisor curl \
 subversion libcurl4-gnutls-dev cmake dh-autoreconf autotools-dev autoconf automake gcc \
-build-essential libtool make nasm zlib1g-dev tar libx264. apt-transport-https \
+build-essential libtool make nasm zlib1g-dev tar apt-transport-https \
 ca-certificates wget nginx php${PHP_VERSION}-cli php${PHP_VERSION}-gd php${PHP_VERSION}-mcrypt php${PHP_VERSION}-curl \
 php${PHP_VERSION}-mbstring php${PHP_VERSION}-dom php${PHP_VERSION}-zip php${PHP_VERSION}-fpm pwgen && \
 curl -sL https://deb.nodesource.com/setup_9.x | bash - && apt-get install -y nodejs npm
+
+############################
+# Clone and build x264
+
+RUN git clone https://code.videolan.org/videolan/x264 /tmp/x264 && \
+	cd /tmp/x264 && \
+	git checkout df79067c && \
+	./configure && make && make install
 
 ############################
 # Clone and build ffmpeg
@@ -46,7 +54,7 @@ RUN git clone https://github.com/FFmpeg/FFmpeg && \
 ############################
 # Clone and build machinery
 
-RUN apt install -y libssl-dev && git clone https://github.com/kerberos-io/machinery /tmp/machinery && \
+RUN git clone https://github.com/kerberos-io/machinery /tmp/machinery && \
     cd /tmp/machinery && git checkout ${APP_ENV} && \
     mkdir build && cd build && \
     cmake .. && make && make check && make install && \
