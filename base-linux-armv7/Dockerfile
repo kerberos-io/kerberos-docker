@@ -39,7 +39,7 @@ RUN sed -i -e "s/;daemonize\s*=\s*yes/daemonize = no/g" /etc/php/7.0/fpm/php-fpm
 ############################
 # Clone and build machinery
 
-RUN   apt-get install libomxil-bellagio-dev -y
+RUN apt-get install libomxil-bellagio-dev -y
 RUN git clone https://github.com/FFmpeg/FFmpeg && \
 	cd FFmpeg && git checkout remotes/origin/release/3.1 && \
 	./configure --target-os=linux --enable-nonfree --enable-libx264 --enable-gpl --enable-omx && make && \
