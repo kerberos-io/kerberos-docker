@@ -39,7 +39,7 @@ curl -sL https://deb.nodesource.com/setup_9.x | bash - && apt-get install -y nod
 RUN git clone https://code.videolan.org/videolan/x264 /tmp/x264 && \
 	cd /tmp/x264 && \
 	git checkout df79067c && \
-	./configure --enable-shared --enable-static --enable-pic && make && make install
+	./configure --prefix=/usr --enable-shared --enable-static --enable-pic && make && make install
 
 ############################
 # Clone and build ffmpeg
@@ -53,8 +53,7 @@ RUN apt-get install -y pkg-config && git clone https://github.com/FFmpeg/FFmpeg 
 ############################
 # Clone and build machinery
 
-RUN export LD_LIBRARY_PATH=/lib:/usr/lib:/usr/local/lib && \
-		git clone https://github.com/kerberos-io/machinery /tmp/machinery && \
+RUN git clone https://github.com/kerberos-io/machinery /tmp/machinery && \
     cd /tmp/machinery && git checkout ${APP_ENV} && \
     mkdir build && cd build && \
     cmake .. && make && make check && make install && \
