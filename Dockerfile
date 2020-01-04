@@ -53,7 +53,8 @@ RUN apt-get install -y pkg-config && git clone https://github.com/FFmpeg/FFmpeg 
 ############################
 # Clone and build machinery
 
-RUN git clone https://github.com/kerberos-io/machinery /tmp/machinery && \
+RUN export LD_LIBRARY_PATH=/lib:/usr/lib:/usr/local/lib && \
+		git clone https://github.com/kerberos-io/machinery /tmp/machinery && \
     cd /tmp/machinery && git checkout ${APP_ENV} && \
     mkdir build && cd build && \
     cmake .. && make && make check && make install && \
