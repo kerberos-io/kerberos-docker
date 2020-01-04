@@ -44,9 +44,9 @@ RUN git clone https://code.videolan.org/videolan/x264 /tmp/x264 && \
 ############################
 # Clone and build ffmpeg
 
-RUN git clone https://github.com/FFmpeg/FFmpeg && \
+RUN apt-get install -y pkg-config && git clone https://github.com/FFmpeg/FFmpeg && \
 	cd FFmpeg && git checkout remotes/origin/release/${FFMPEG_VERSION} && \
-	./configure --enable-gpl --enable-libx264 && make && \
+	./configure --enable-nonfree --enable-libx264 --enable-gpl && make && \
     make install && \
     cd .. && rm -rf FFmpeg
 
