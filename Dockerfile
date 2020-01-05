@@ -68,6 +68,7 @@ RUN git clone https://github.com/kerberos-io/web /var/www/web && cd /var/www/web
 chown -Rf www-data.www-data /var/www/web && curl -sSk https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer && \
 cd /var/www/web && \
 composer install --prefer-source && \
+npm config set unsafe-perm true && \
 npm install -g bower && \
 cd public && \
 bower --allow-root install
