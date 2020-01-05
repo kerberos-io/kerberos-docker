@@ -73,6 +73,7 @@ npm config set registry http://registry.npmjs.org/ && \
 npm config set strict-ssl=false && \
 npm install -g bower && \
 cd public && \
+sed -i 's/https/http/g' .bowerrc && \
 bower --allow-root install
 
 RUN rm /var/www/web/public/capture && \
