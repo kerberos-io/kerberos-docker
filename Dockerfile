@@ -69,6 +69,7 @@ chown -Rf www-data.www-data /var/www/web && curl -sSk https://getcomposer.org/in
 cd /var/www/web && \
 composer install --prefer-source && \
 npm config set unsafe-perm true && \
+npm config set registry http://registry.npmjs.org/ && \
 npm install -g bower && \
 cd public && \
 bower --allow-root install
