@@ -1,4 +1,4 @@
-FROM phusion/baseimage:0.9.16
+FROM phusion/baseimage:master
 MAINTAINER "Cédric Verstraeten" <hello@cedric.ws>
 
 ARG APP_ENV=master
@@ -26,7 +26,7 @@ RUN apt-get update && apt-get install -y wget lsb-release && \
 apt-add-repository ppa:ondrej/php && \
 apt -y update && \
 apt -y install software-properties-common libssl-dev git supervisor curl \
-subversion libcurl4-gnutls-dev cmake dh-autoreconf autotools-dev autoconf automake gcc \
+subversion libcurl4-gnutls-dev cmake dh-autoreconf autotools-dev autoconf automake gcc-4.8 g++-4.8 \
 build-essential libtool make nasm zlib1g-dev tar apt-transport-https \
 ca-certificates wget nginx php${PHP_VERSION}-cli php${PHP_VERSION}-gd php${PHP_VERSION}-mcrypt php${PHP_VERSION}-curl \
 php${PHP_VERSION}-mbstring php${PHP_VERSION}-dom php${PHP_VERSION}-zip php${PHP_VERSION}-fpm pwgen && \
