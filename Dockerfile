@@ -22,11 +22,11 @@ ENV DEBIAN_FRONTEND noninteractive
 # Add sources for latest nginx and cmake
 # Install software requirements
 
-RUN apt-get update && apt-get install -y wget lsb-release && \
+RUN apt-get update && apt-get install -y apt-transport-https wget lsb-release && \
 wget -O /etc/apt/trusted.gpg.d/php.gpg https://packages.sury.org/php/apt.gpg && \
 echo "deb https://packages.sury.org/php/ $(lsb_release -sc) main" > /etc/apt/sources.list.d/php.list && \
 apt -y update && \
-apt -y install apt-transport-https software-properties-common libssl-dev git supervisor curl \
+apt -y install software-properties-common libssl-dev git supervisor curl \
 subversion libcurl4-gnutls-dev cmake dh-autoreconf autotools-dev autoconf automake gcc-4.8 \
 build-essential libtool make nasm zlib1g-dev tar apt-transport-https \
 ca-certificates wget nginx php${PHP_VERSION}-cli php${PHP_VERSION}-gd php${PHP_VERSION}-mcrypt php${PHP_VERSION}-curl \
