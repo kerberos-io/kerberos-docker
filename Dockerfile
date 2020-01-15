@@ -1,4 +1,4 @@
-FROM debian:buster
+FROM phusion/baseimage:master
 MAINTAINER "Cédric Verstraeten" <hello@cedric.ws>
 
 ARG APP_ENV=master
