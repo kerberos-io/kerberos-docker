@@ -23,8 +23,7 @@ ENV DEBIAN_FRONTEND noninteractive
 # Install software requirements
 
 RUN apt-get update && apt-get install -y wget lsb-release && \
-wget -O /etc/apt/trusted.gpg.d/php.gpg https://packages.sury.org/php/apt.gpg && \
-echo "deb https://packages.sury.org/php/ $(lsb_release -sc) main" > /etc/apt/sources.list.d/php.list && \
+apt-add-repository ppa:ondrej/php && \
 apt -y update && \
 apt -y install software-properties-common libssl-dev git supervisor curl \
 subversion libcurl4-gnutls-dev cmake dh-autoreconf autotools-dev autoconf automake gcc \
