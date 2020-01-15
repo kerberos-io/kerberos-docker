@@ -33,11 +33,6 @@ ca-certificates wget nginx php${PHP_VERSION}-cli php${PHP_VERSION}-gd php${PHP_V
 php${PHP_VERSION}-mbstring php${PHP_VERSION}-dom php${PHP_VERSION}-zip php${PHP_VERSION}-fpm pwgen && \
 curl -sL https://deb.nodesource.com/setup_9.x | bash - && apt-get install -y nodejs npm
 
-RUN rm /usr/bin/gcc  && \
-rm /usr/bin/g++ && \
-ln -s /usr/bin/gcc-4.8 /usr/bin/gcc && \
-ln -s /usr/bin/g++-4.8 /usr/bin/g++ && gcc -v
-
 ############################
 # Clone and build x264
 
