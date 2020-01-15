@@ -1,4 +1,4 @@
-FROM phusion/baseimage:master
+FROM debian:buster
 MAINTAINER "Cédric Verstraeten" <hello@cedric.ws>
 
 ARG APP_ENV=master
@@ -23,14 +23,20 @@ ENV DEBIAN_FRONTEND noninteractive
 # Install software requirements
 
 RUN apt-get update && apt-get install -y wget lsb-release && \
-apt-add-repository ppa:ondrej/php && \
+wget -O /etc/apt/trusted.gpg.d/php.gpg https://packages.sury.org/php/apt.gpg && \
+echo "deb https://packages.sury.org/php/ $(lsb_release -sc) main" > /etc/apt/sources.list.d/php.list && \
 apt -y update && \
 apt -y install software-properties-common libssl-dev git supervisor curl \
-subversion libcurl4-gnutls-dev cmake dh-autoreconf autotools-dev autoconf automake gcc-4.8 g++-4.8 \
+subversion libcurl4-gnutls-dev cmake dh-autoreconf autotools-dev autoconf automake gcc \
 build-essential libtool make nasm zlib1g-dev tar apt-transport-https \
 ca-certificates wget nginx php${PHP_VERSION}-cli php${PHP_VERSION}-gd php${PHP_VERSION}-mcrypt php${PHP_VERSION}-curl \
 php${PHP_VERSION}-mbstring php${PHP_VERSION}-dom php${PHP_VERSION}-zip php${PHP_VERSION}-fpm pwgen && \
-curl -sL https://deb.nodesource.com/setup_9.x | bash - && apt-get install -y nodejs
+curl -sL https://deb.nodesource.com/setup_9.x | bash - && apt-get install -y nodejs npm
+
+RUN rm /usr/bin/gcc  && \
+rm /usr/bin/g++ && \
+ln -s /usr/bin/gcc-4.8 /usr/bin/gcc && \
+ln -s /usr/bin/g++-4.8 /usr/bin/g++ && gcc -v
 
 ############################
 # Clone and build x264
