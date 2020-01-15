@@ -33,6 +33,14 @@ ca-certificates wget nginx php${PHP_VERSION}-cli php${PHP_VERSION}-gd php${PHP_V
 php${PHP_VERSION}-mbstring php${PHP_VERSION}-dom php${PHP_VERSION}-zip php${PHP_VERSION}-fpm pwgen && \
 curl -sL https://deb.nodesource.com/setup_9.x | bash - && apt-get install -y nodejs npm
 
+RUN wget http://www.nasm.us/pub/nasm/releasebuilds/2.13.01/nasm-2.13.01.tar.bz2 && \
+tar xjvf nasm-2.13.01.tar.bz2  && \
+cd nasm-2.13.01  && \
+./autogen.sh  && \
+./configure  && \
+make  && \
+make install
+
 RUN apt-get install nasm
 
 ############################
