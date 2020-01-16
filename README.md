@@ -69,12 +69,12 @@ Create a kerberos.io container with a name and predefined configuration.
 
 ### Buildx
 
-  docker run --rm --privileged docker/binfmt:66f9012c56a8316f9244ffd7622d7c21c1f6f28d
+    docker run --rm --privileged docker/binfmt:66f9012c56a8316f9244ffd7622d7c21c1f6f28d
 
-  docker buildx create --name nubuilder --driver docker-container
+    docker buildx create --name nubuilder --driver docker-container
 
-  docker buildx use nubuilder
+    docker buildx use nubuilder
 
-  docker buildx inspect --bootstrap
+    docker buildx inspect --bootstrap
 
-  docker buildx build --platform linux/amd64,linux/arm/v7 -t kerberos/kerberos:develop --push .
+    docker buildx build --platform linux/amd64,linux/arm/v7,linux/arm64 -t kerberos/kerberos --push .
