@@ -18,7 +18,7 @@ Nowadays we have a myriad of **expensive** cameras, recorders, and software solu
 
 # Docker
 
-A Docker image (x86, ARMv7, ARMv8) is available on [**the Docker Hub**](https://hub.docker.com/u/kerberos/kerberos), which contains all the necessary software to setup the Kerberos agent. Before you can run this image you will have to make sure [**Docker**](https://docker.com) is installed. After the installation you can use **docker run** to get the Kerberos agent up and running; you can also opt for **dockeros** to create and scale your Kerberos agents.
+A Docker image (x86, ARMv7, ARMv8) is available on [**the Docker Hub**](https://hub.docker.com/r/kerberos/kerberos), which contains all the necessary software to setup the Kerberos agent. Before you can run this image you will have to make sure [**Docker**](https://docker.com) is installed. After the installation you can use **docker run** to get the Kerberos agent up and running; you can also opt for **dockeros** to create and scale your Kerberos agents.
 
 ## Use docker run
 
