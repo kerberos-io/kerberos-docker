@@ -1,4 +1,5 @@
 #!/bin/bash
+
 autoremoval() {
   while true; do
     sleep 60
@@ -8,6 +9,18 @@ autoremoval() {
       find /etc/opt/kerberosio/capture/ -type f | sort | head -n 100 | xargs rm;
     fi;
   done
+}
+
+copyConfigFiles() {
+  # Check if the config dir is empty, this can happen due to mapping
+  # an empty filesystem to the volume.
+  TEMPLATE_DIR=/etc/opt/kerberosio/template
+  CONFIG_DIR=/etc/opt/kerberosio/config
+  if [ "$(ls -A $CONFIG_DIR)" ]; then
+       echo "Config files are availble"
+  else
+      cp /etc/opt/kerberosio/config/* /etc/opt/kerberosio/template/
+  fi
 }
 
 # changes for php 7.1
@@ -21,4 +34,5 @@ random=$((1+RANDOM%10000))
 sed -i -e "s/kerberosio_session/kerberosio_session_$random/" /var/www/web/.env
 
 autoremoval &
+copyConfigFiles &
 /usr/bin/supervisord -n -c /etc/supervisord.conf

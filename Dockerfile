@@ -124,6 +124,9 @@ RUN chmod 755 /run.sh
 RUN chmod +x /run.sh
 RUN sed -i -e 's/\r$//' /run.sh
 
+# Copy the config template to filesystem
+ADD ./config /etc/opt/kerberosio/template
+
 # Exposing web on port 80 and livestreaming on port 8889
 EXPOSE 8889
 EXPOSE 80
