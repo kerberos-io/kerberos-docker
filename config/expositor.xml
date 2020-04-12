@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<expositors>
+	
+	<Rectangle>
+	    <region>
+		    <x1 type="number">0</x1>
+		    <y1 type="number">0</y1>
+		    <x2 type="number">800</x2>
+		    <y2 type="number">600</y2>
+		 </region>
+	</Rectangle>
+
+	<Hull>
+	    <region type="hullselection">779,588|781,28|588,48|377,31|208,63|32,45|33,625|191,591|347,600|456,572|556,601|659,629</region>
+	</Hull>
+
+</expositors>

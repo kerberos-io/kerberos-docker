@@ -77,4 +77,4 @@ Create a kerberos.io container with a name and predefined configuration.
 
     docker buildx inspect --bootstrap
 
-    docker buildx build --platform linux/amd64,linux/arm/v7,linux/arm64 -t kerberos/kerberos --push .
+    docker buildx build --platform linux/amd64,linux/arm/v7,linux/arm/v6,linux/arm64 -t kerberos/kerberos --push .

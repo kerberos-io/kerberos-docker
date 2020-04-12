@@ -1,4 +1,4 @@
-FROM debian:stretch
+FROM debian:stretch AS builder
 MAINTAINER "Cédric Verstraeten" <hello@cedric.ws>
 
 ARG APP_ENV=master
@@ -74,7 +74,7 @@ RUN git clone https://github.com/kerberos-io/machinery /tmp/machinery && \
 #####################
 # Clone and build web
 
-RUN git clone https://github.com/kerberos-io/web /var/www/web && cd /var/www/web && git checkout ${APP_ENV} && \
+RUN git clone https://github.com/kerberos-io/web /var/www/web && cd /var/www/web && git checkout a17c2db770cce5c9f2aa4c13d76367647a9dba4d && \
 chown -Rf www-data.www-data /var/www/web && curl -sSk https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer && \
 cd /var/www/web && \
 composer install --prefer-source && \
@@ -91,50 +91,79 @@ ln -s /etc/opt/kerberosio/capture/ /var/www/web/public/capture
 
 # Fixes, because we are now combining the two docker images.
 # Docker is aware of both web and machinery.
+
 RUN sed -i -e "s/'insideDocker'/'insideDocker' => false,\/\//" /var/www/web/app/Http/Controllers/SystemController.php
-# RUN sed -i -e "s/\$output \=/\$output \= '';\/\//" /var/www/web/app/Http/Controllers/SettingsController.php
 RUN sed -i -e "s/service kerberosio status/supervisorctl status machinery \| grep \"RUNNING\"';\/\//" /var/www/web/app/Http/Repositories/System/OSSystem.php
 
-###################
-# nginx site conf
+# Let's create a /dist folder containing just the files necessary for runtime.
+# Later, it will be copied as the / (root) of the output image.
 
-RUN rm -Rf /etc/nginx/conf.d/* && rm -Rf /etc/nginx/sites-available/default  && rm -Rf /etc/nginx/sites-enabled/default  && mkdir -p /etc/nginx/ssl
-ADD ./web.conf /etc/nginx/sites-available/default.conf
-RUN ln -s /etc/nginx/sites-available/default.conf /etc/nginx/sites-enabled/default.conf
+WORKDIR /dist
+RUN mkdir -p ./etc/opt && cp -r /etc/opt/kerberosio ./etc/opt/
+RUN mkdir -p ./usr/bin && cp /usr/bin/kerberosio ./usr/bin/
+RUN mkdir -p ./var/www && cp -r /var/www/web ./var/www/
 
-########################################
-# Force both nginx and PHP-FPM to run in the foreground
-# This is a requirement for supervisor
+# Optional: in case your application uses dynamic linking (often the case with CGO),
+# this will collect dependent libraries so they're later copied to the final image
+# NOTE: make sure you honor the license terms of the libraries you copy and distribute
+RUN ldd /usr/bin/kerberosio | tr -s '[:blank:]' '\n' | grep '^/' | \
+    xargs -I % sh -c 'mkdir -p $(dirname ./%); cp % ./%;'
 
-RUN echo "daemon off;" >> /etc/nginx/nginx.conf
-RUN sed -i -e "s/;daemonize\s*=\s*yes/daemonize = no/g" /etc/php/${PHP_VERSION}/fpm/php-fpm.conf
-RUN sed -i 's/"GPCS"/"EGPCS"/g' /etc/php/${PHP_VERSION}/fpm/php.ini
-RUN sed -i 's/"--daemonize/"--daemonize --allow-to-run-as-root/g' /etc/init.d/php${PHP_VERSION}-fpm
-RUN sed -i 's/www-data/root/g' /etc/php/${PHP_VERSION}/fpm/pool.d/www.conf
-RUN sed -i 's/www-data/root/g' /etc/nginx/nginx.conf
-RUN sed -i -e "s/;listen.mode = 0660/listen.mode = 0750/g" /etc/php/${PHP_VERSION}/fpm/pool.d/www.conf && \
-find /etc/php/${PHP_VERSION}/cli/conf.d/ -name "*.ini" -exec sed -i -re 's/^(\s*)#(.*)/\1;\2/g' {} \;
+FROM alpine:latest
 
-# Merged supervisord config of both web and machinery
+#################################
+# Copy files from previous images
+
+COPY --chown=0:0 --from=builder /dist /
+
+RUN apk update && apk add ca-certificates && \
+    apk add --no-cache tzdata && rm -rf /var/cache/apk/*
+
+####################################
+# ADD supervisor and STARTUP script
+
+RUN apk add supervisor && mkdir -p /var/log/supervisor/
 ADD ./supervisord.conf /etc/supervisord.conf
-
-# Merge the two run files.
 ADD ./run.sh /run.sh
-RUN chmod 755 /run.sh
-RUN chmod +x /run.sh
-RUN sed -i -e 's/\r$//' /run.sh
+RUN chmod 755 /run.sh && chmod +x /run.sh
 
+######################
+# INSTALL Nginx
+
+RUN apk add nginx && mkdir -p /run/nginx
+COPY web.conf /etc/nginx/conf.d/default.conf
+RUN chmod -R 777 /var/www/web/bootstrap/cache/ && \
+		chmod -R 777 /var/www/web/storage && \
+		chmod 777 /var/www/web/config/kerberos.php && \
+		chmod -R 777 /etc/opt/kerberosio/config
+
+######################
+# INSTALL PHP
+
+ARG PHP_VERSION=7
+
+RUN apk add php${PHP_VERSION}-cli php${PHP_VERSION}-gd php${PHP_VERSION}-mcrypt php${PHP_VERSION}-curl \
+php${PHP_VERSION}-mbstring php${PHP_VERSION}-dom php${PHP_VERSION}-simplexml php${PHP_VERSION}-zip php${PHP_VERSION}-tokenizer php${PHP_VERSION}-json php${PHP_VERSION}-session php${PHP_VERSION}-xml php${PHP_VERSION}-openssl php${PHP_VERSION}-fpm
+RUN sed -i -e "s/;daemonize\s*=\s*yes/daemonize = no/g" /etc/php7/php-fpm.conf
+
+############################
+# COPY template folder
+
+# Copy the config template to filesystem
+ADD ./config /etc/opt/kerberosio/template
+
+########################################################
 # Exposing web on port 80 and livestreaming on port 8889
+
 EXPOSE 8889
 EXPOSE 80
 
-# Make capture and config directory visible
+############################
+# Volumes
+
 VOLUME ["/etc/opt/kerberosio/capture"]
 VOLUME ["/etc/opt/kerberosio/config"]
 VOLUME ["/etc/opt/kerberosio/logs"]
-
-# Make web config directory visible
 VOLUME ["/var/www/web/config"]
 
-# Start runner script when booting container
-CMD ["/bin/bash", "/run.sh"]
+CMD ["sh", "/run.sh"]
