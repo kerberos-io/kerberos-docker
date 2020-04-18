@@ -17,8 +17,9 @@ copyConfigFiles() {
   TEMPLATE_DIR=/etc/opt/kerberosio/template
   CONFIG_DIR=/etc/opt/kerberosio/config
   if [ "$(ls -A $CONFIG_DIR)" ]; then
-       echo "Config files are availble"
+      echo "Config files are available."
   else
+      echo "Config files are missing, copying from template."
       cp /etc/opt/kerberosio/template/* /etc/opt/kerberosio/config/
       chmod -r 777 /etc/opt/kerberosio/config
   fi
