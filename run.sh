@@ -20,6 +20,7 @@ copyConfigFiles() {
        echo "Config files are availble"
   else
       cp /etc/opt/kerberosio/config/* /etc/opt/kerberosio/template/
+      chmod -r 777 /etc/opt/kerberosio/config
   fi
 }
 
