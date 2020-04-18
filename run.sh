@@ -19,7 +19,7 @@ copyConfigFiles() {
   if [ "$(ls -A $CONFIG_DIR)" ]; then
        echo "Config files are availble"
   else
-      cp /etc/opt/kerberosio/config/* /etc/opt/kerberosio/template/
+      cp /etc/opt/kerberosio/template/* /etc/opt/kerberosio/config/
       chmod -r 777 /etc/opt/kerberosio/config
   fi
 }
