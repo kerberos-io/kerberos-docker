@@ -60,6 +60,18 @@ RUN apt-get install -y pkg-config && git clone https://github.com/FFmpeg/FFmpeg 
     make install && \
     cd .. && rm -rf FFmpeg
 
+# Get latest userland tools and build. Clean up unused stuff at the end
+RUN cd \
+    && git clone --depth 1 https://github.com/raspberrypi/userland.git \
+    && cd userland \
+    && ./buildme \
+    && rm -rf ..\userland \
+    && rm -rf /opt/vc/include \
+    && rm -rf /opt/vc/src
+
+# Run without the having to specify the full path
+ENV PATH /opt/vc/bin:/opt/vc/lib:$PATH
+
 ############################
 # Clone and build machinery
 
