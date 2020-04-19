@@ -64,7 +64,7 @@ RUN cd \
 RUN apt-get install libomxil-bellagio-dev -y
 RUN apt-get install -y pkg-config && git clone https://github.com/FFmpeg/FFmpeg && \
 	cd FFmpeg && git checkout remotes/origin/release/${FFMPEG_VERSION} && \
-	./configure --enable-nonfree --enable-libx264 --enable-gpl --enable-omx && make && \
+	./configure --enable-nonfree --enable-libx264 --enable-gpl && make && \
     make install && \
     cd .. && rm -rf FFmpeg
 
