@@ -54,24 +54,19 @@ RUN git clone https://code.videolan.org/videolan/x264 /tmp/x264 && \
 ############################
 # Clone and build ffmpeg
 
+# Get latest userland tools and build. Clean up unused stuff at the end
+RUN cd \
+    && git clone --depth 1 https://github.com/raspberrypi/userland.git \
+    && cd userland \
+		&& sed -i 's/sudo//g' ./buildme \
+    && ./buildme \
+    && rm -rf ../userland
 RUN apt-get install libomxil-bellagio-dev -y
 RUN apt-get install -y pkg-config && git clone https://github.com/FFmpeg/FFmpeg && \
 	cd FFmpeg && git checkout remotes/origin/release/${FFMPEG_VERSION} && \
 	./configure --enable-nonfree --enable-libx264 --enable-gpl --enable-omx && make && \
     make install && \
     cd .. && rm -rf FFmpeg
-
-# Get latest userland tools and build. Clean up unused stuff at the end
-RUN cd \
-    && git clone --depth 1 https://github.com/raspberrypi/userland.git \
-    && cd userland \
-    && ./buildme \
-    && rm -rf ..\userland \
-    && rm -rf /opt/vc/include \
-    && rm -rf /opt/vc/src
-
-# Run without the having to specify the full path
-ENV PATH /opt/vc/bin:/opt/vc/lib:$PATH
 
 ############################
 # Clone and build machinery
@@ -115,6 +110,8 @@ WORKDIR /dist
 RUN mkdir -p ./etc/opt && cp -r /etc/opt/kerberosio ./etc/opt/
 RUN mkdir -p ./usr/bin && cp /usr/bin/kerberosio ./usr/bin/
 RUN mkdir -p ./var/www && cp -r /var/www/web ./var/www/
+RUN mkdir -p ./usr/lib && cp -r /opt/vc/lib/* ./usr/lib/
+RUN cp /usr/local/bin/ffmpeg /usr/bin/ffmpeg
 
 # Optional: in case your application uses dynamic linking (often the case with CGO),
 # this will collect dependent libraries so they're later copied to the final image
