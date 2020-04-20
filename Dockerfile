@@ -111,7 +111,7 @@ RUN mkdir -p ./etc/opt && cp -r /etc/opt/kerberosio ./etc/opt/
 RUN mkdir -p ./usr/bin && cp /usr/bin/kerberosio ./usr/bin/
 RUN mkdir -p ./var/www && cp -r /var/www/web ./var/www/
 RUN test -d /opt/vc && mkdir -p ./usr/lib && cp -r /opt/vc/lib/* ./usr/lib/
-RUN cp /usr/local/bin/ffmpeg /usr/bin/ffmpeg
+RUN cp /usr/local/bin/ffmpeg ./usr/bin/ffmpeg
 
 # Optional: in case your application uses dynamic linking (often the case with CGO),
 # this will collect dependent libraries so they're later copied to the final image
