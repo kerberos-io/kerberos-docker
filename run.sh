@@ -21,7 +21,7 @@ copyConfigFiles() {
   else
       echo "Config files are missing, copying from template."
       cp /etc/opt/kerberosio/template/* /etc/opt/kerberosio/config/
-      chmod -r 777 /etc/opt/kerberosio/config
+      chmod -R 777 /etc/opt/kerberosio/config
   fi
 }
 
