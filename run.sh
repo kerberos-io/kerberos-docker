@@ -23,6 +23,17 @@ copyConfigFiles() {
       cp /etc/opt/kerberosio/template/* /etc/opt/kerberosio/config/
       chmod -R 777 /etc/opt/kerberosio/config
   fi
+
+  # Do the same for the web config
+  TEMPLATE_DIR=/var/www/web/template
+  CONFIG_DIR=/var/www/web/config
+  if [ "$(ls -A $CONFIG_DIR)" ]; then
+      echo "Config files are available."
+  else
+      echo "Config files are missing, copying from template."
+      cp /var/www/web/template/* /var/www/web/config/
+      chmod -R 777 /var/www/web/config
+  fi
 }
 
 # replace SESSION_COOKIE_NAME

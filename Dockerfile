@@ -161,6 +161,7 @@ RUN sed -i -e "s/;daemonize\s*=\s*yes/daemonize = no/g" /etc/php7/php-fpm.conf
 
 # Copy the config template to filesystem
 ADD ./config /etc/opt/kerberosio/template
+ADD ./webconfig /var/www/web/template
 
 ########################################################
 # Exposing web on port 80 and livestreaming on port 8889
