@@ -43,7 +43,10 @@ sed -i -e "s/kerberosio_session/kerberosio_session_$random/" /var/www/web/.env
 autoremoval &
 copyConfigFiles &
 
-# Add environments vars to php
-env | grep "KERBEROSIO_" | sed "s/\(.*\)=\(.*\)/env[\1]='\2'/" >> /etc/php7/php-fpm.d/www.conf
+# changes for php 7.1
+echo "[www]" > /etc/php/7.1/fpm/pool.d/env.conf
+echo "" >> /etc/php/7.1/fpm/pool.d/env.conf
+env | grep "KERBEROSIO_" | sed "s/\(.*\)=\(.*\)/env[\1]='\2'/" >> /etc/php/7.1/fpm/pool.d/env.conf
+service php7.1-fpm start
 
 /usr/bin/supervisord -n -c /etc/supervisord.conf
