@@ -193,4 +193,4 @@ VOLUME ["/etc/opt/kerberosio/config"]
 VOLUME ["/etc/opt/kerberosio/logs"]
 VOLUME ["/var/www/web/config"]
 
-CMD ["sh", "/run.sh"]
+CMD ["bash", "/run.sh"]
