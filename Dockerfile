@@ -85,7 +85,7 @@ RUN git clone https://github.com/kerberos-io/machinery /tmp/machinery && \
 RUN git clone https://github.com/kerberos-io/web /var/www/web && cd /var/www/web && git checkout 0b054205a640f24a3febe9a3e3b6c7ba0d21a8f3 && \
 chown -Rf www-data.www-data /var/www/web && curl -sSk https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer && \
 cd /var/www/web && \
-composer install --prefer-source && \
+composer install && \
 npm config set unsafe-perm true && \
 npm config set registry http://registry.npmjs.org/ && \
 npm config set strict-ssl=false && \
