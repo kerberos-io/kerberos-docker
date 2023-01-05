@@ -1,8 +1,10 @@
-# Kerberos Open Source - Docker
+# Kerberos Open Source - Docker (Archived)
+
+This project is archived, and move to the new agent repository: [Kerberos Agent](https://github.com/kerberos-io/agent).
+
+---
 
 [![Build Status](https://travis-ci.org/kerberos-io/docker.svg)](https://travis-ci.org/kerberos-io/docker) [![Join the chat](https://img.shields.io/gitter/room/TechnologyAdvice/Stardust.svg?style=flat)](https://gitter.im/kerberos-io/hades?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
-
-[![Kerberos.io - video surveillance](https://kerberos.io/images/kerberos.png)](https://kerberos.io)
 
 ## License
 
